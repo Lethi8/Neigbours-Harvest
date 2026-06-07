@@ -1,20 +1,18 @@
 <?php
 include('config/constants.php');
 
-// Check if listing ID exists 
 if(isset($_GET['id']))
 {
-    // Store the listing ID
+ 
     $id = $_GET['id'];
 
-    // Get listing data from database
     $sql = "SELECT * FROM listings WHERE listings_id = $id";
     $res = mysqli_query($conn, $sql);
 
-    // Check if listing exists
+
     if($res && mysqli_num_rows($res) == 1)
     {
-        // Fetch listing details
+     
         $row = mysqli_fetch_assoc($res);
 
         $image_name = $row['image_name'];
@@ -26,45 +24,42 @@ if(isset($_GET['id']))
     }
     else
     {
-        // Redirect if listing not found
         header("location: myshop.php");
         exit();
     }
 }
 else
 {
-    // Redirect if no ID provided
+
     header("location: myshop.php");
     exit();
 }
 
 
-// Handle form submission
 if(isset($_POST['submit']))
 {
-    // Get updated form values
     $title = $_POST['title'];
     $description = $_POST['description'];
     $price = $_POST['price'];
     $quant = $_POST['quant'];
     $location = $_POST['location'];
 
-    // Keep current image by default
+    
     $updated_image = $image_name;
 
-    // Check if user selected a new image
+
     if(isset($_FILES['image']['name']) && $_FILES['image']['name'] != "")
     {
-        // Get uploaded image name
+        
         $updated_image = $_FILES['image']['name'];
 
-        // Temporary image path
+     
         $temp_image = $_FILES['image']['tmp_name'];
 
-        // Destination folder
+    
         $destination = "images/" . $updated_image;
 
-        //uplaod the image
+       
         $upload_image = move_uploaded_file($temp_image, $destination);
 
         
@@ -75,7 +70,6 @@ if(isset($_POST['submit']))
         }
     }
 
-    // Update listing in database
    $update_sql = "UPDATE listings SET
     title = '$title',
     description = '$description',
@@ -85,10 +79,10 @@ if(isset($_POST['submit']))
     image_name = '$updated_image'
 WHERE listings_id = $id";
 
-    // Execute update query
+
     $update_res = mysqli_query($conn, $update_sql);
 
-    // Redirect after successful update
+e
     if($update_res)
     {
         header("location: myshop.php");
