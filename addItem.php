@@ -22,7 +22,6 @@ if(isset($_POST['submit']))
 
     $image_name = "";
 
-    // IMAGE UPLOAD
     if(isset($_FILES['image']['name']) && $_FILES['image']['name'] != "")
     {
         $image_name = $_FILES['image']['name'];
@@ -40,7 +39,6 @@ if(isset($_POST['submit']))
         }
     }
 
-    // INSERT INTO DATABASE
     $sql = "INSERT INTO listings SET
             image_name='$image_name',
             title='$title',
