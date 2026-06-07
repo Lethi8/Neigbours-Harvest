@@ -1,36 +1,59 @@
 <?php
+session_start();
 include('config/constants.php');
 
-if(!isset($_SESSION['user_Id'])){
+if (!isset($_SESSION['user_Id'])) {
     header("location: admin/user-login.php");
     exit();
 }
 
-$user_Id = $_SESSION['user_Id'];
-$listings_id = $_GET['listings_id'];
+$user_Id = (int)$_SESSION['user_Id'];
 
-// check if item already in cart
-$checkSql = "SELECT * FROM cart 
+if (!isset($_GET['listings_id'])) {
+    header("location: produce.php");
+    exit();
+}
+
+$listings_id = (int)$_GET['listings_id'];
+
+$sql = "SELECT quant FROM listings WHERE listings_id = $listings_id";
+$res = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($res);
+
+$currentStock = (int)$row['quant'];
+
+if ($currentStock <= 0) {
+    header("location: produce.php?error=outofstock");
+    exit();
+}
+
+$newStock = $currentStock - 1;
+
+mysqli_query($conn, "UPDATE listings SET quant = $newStock WHERE listings_id = $listings_id");
+
+$checkSql = "SELECT cart_id, quantity 
+             FROM cart 
              WHERE user_Id = $user_Id 
-             AND listings_id = $listings_id";
+             AND listings_id = $listings_id
+             LIMIT 1";
 
 $checkRes = mysqli_query($conn, $checkSql);
 
-if(mysqli_num_rows($checkRes) > 0){
-    // update quantity
-    $updateSql = "UPDATE cart 
-                  SET quantity = quantity + 1 
-                  WHERE user_Id = $user_Id 
-                  AND listings_id = $listings_id";
-    mysqli_query($conn, $updateSql);
+if ($checkRes && mysqli_num_rows($checkRes) > 0) {
+
+    $row = mysqli_fetch_assoc($checkRes);
+    $newQty = (int)$row['quantity'] + 1;
+
+    mysqli_query($conn, "UPDATE cart 
+                          SET quantity = $newQty 
+                          WHERE cart_id = {$row['cart_id']}");
 
 } else {
-    // insert new item
-    $insertSql = "INSERT INTO cart (user_Id, listings_id, quantity)
-                  VALUES ($user_Id, $listings_id, 1)";
-    mysqli_query($conn, $insertSql);
+
+    mysqli_query($conn, "INSERT INTO cart (user_Id, listings_id, quantity)
+                         VALUES ($user_Id, $listings_id, 1)");
 }
 
-header("location: cart.php");
+header("Location: cart.php");
 exit();
 ?>
