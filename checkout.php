@@ -52,13 +52,13 @@ if(isset($_POST['placeOrder'])){
             address = '$address',
             city = '$city',
             postal_code = '$postal',
-            status = 'Pending'
+            status = '$status'
         ";
 
         mysqli_query($conn, $orderSql);
     }
 
-    /* clears cart */
+    
     mysqli_query($conn, "DELETE FROM cart WHERE user_Id = $user_Id");
 
     header("Location: order-success.php");
@@ -71,6 +71,7 @@ if(isset($_POST['placeOrder'])){
 <head>
     <title>Checkout</title>
     <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -90,7 +91,16 @@ if(isset($_POST['placeOrder'])){
         <label>Postal Code:</label><br>
         <input type="text" name="postal_code" required><br><br>
 
-        <br>
+        <label>Payment Method:</label><br>
+        <select name="payment_method" required>
+            <option value="">-- Select Payment Method --</option>
+            <option value="Cash on Delivery">Cash on Delivery</option>
+            <option value="Card">Card</option>
+            <option value="EFT">EFT</option>
+        </select>
+<br><br>
+        
+        
         <button type="submit" name="placeOrder" class="btn btn-primary">
             Place Order
         </button>
