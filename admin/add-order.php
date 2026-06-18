@@ -1,4 +1,48 @@
-<?php include('partials/menu.php'); ?>
+<?php
+ob_start();
+session_start();
+include('partials/menu.php');
+
+if(isset($_POST['submit']))
+{
+            $user_Id= $_POST['user_Id'];
+            $listings_id= $_POST['listings_id'];
+            $address= $_POST['address'];
+            $status= $_POST['status'];
+            $quantity = $_POST['quantity'];
+            $total= $_POST['total'];
+            $pay_method= $_POST['pay_method'];
+            $city= $_POST['city'];
+            $postal_code = $_POST['postal_code'];
+
+    $sql = "INSERT INTO orders SET
+        user_Id      = '$user_Id',
+        listings_id  = '$listings_id',
+        address      = '$address',
+        status       = '$status',
+        quantity     = '$quantity',
+        total        = '$total',
+        pay_method   = '$pay_method',
+        city         = '$city',
+        postal_code  = '$postal_code'
+    ";
+
+    $res = mysqli_query($conn, $sql);
+
+    if($res)
+    {
+        $_SESSION['add'] = "<div class='success'>Order Added Successfully.</div>";
+        header("location:".SITEURL.'admin/manage-orders.php');
+        exit();
+    }
+    else
+    {
+        $_SESSION['add'] = "<div class='error'>Failed To Add Order.</div>";
+        header("location:".SITEURL.'admin/add-order.php');
+        exit();
+    }
+}
+?>
 
 <div class="main-content">
 <div class="wrapper">
@@ -8,10 +52,10 @@
 <br><br>
 
 <?php
-if(isset($_SESSION['upload']))
+if(isset($_SESSION['add']))
 {
-    echo $_SESSION['upload'];
-    unset($_SESSION['upload']);
+    echo $_SESSION['add'];
+    unset($_SESSION['add']);
 }
 ?>
 
@@ -30,12 +74,17 @@ if(isset($_SESSION['upload']))
 
     <tr>
         <td>Address:</td>
-        <td><input type="text" name="address" required></td>
+        <td><textarea name="address" cols="30" rows="3" required></textarea></td>
     </tr>
 
     <tr>
-        <td>Status:</td>
-        <td><input type="text" name="status" required></td>
+        <td>City:</td>
+        <td><input type="text" name="city" required></td>
+    </tr>
+
+    <tr>
+        <td>Postal Code:</td>
+        <td><input type="number" name="postal_code" required></td>
     </tr>
 
     <tr>
@@ -50,17 +99,26 @@ if(isset($_SESSION['upload']))
 
     <tr>
         <td>Payment Method:</td>
-        <td><input type="text" name="pay_method" required></td>
+        <td>
+            <select name="pay_method" required>
+                <option value="">-- Select Payment Method --</option>
+                <option value="Card">Card</option>
+                <option value="EFT">EFT</option>
+                <option value="Cash on Delivery">Cash on Delivery</option>
+            </select>
+        </td>
     </tr>
 
     <tr>
-        <td>City:</td>
-        <td><input type="number" name="city" required></td>
-    </tr>
-
-    <tr>
-        <td>Postal Code:</td>
-        <td><input type="number" name="postal_code" required></td>
+        <td>Status:</td>
+        <td>
+            <select name="status" required>
+                <option value="Pending">Pending</option>
+                <option value="Processing">Processing</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </td>
     </tr>
 
     <tr>
@@ -76,44 +134,3 @@ if(isset($_SESSION['upload']))
 </div>
 
 <?php include('partials/footer.php'); ?>
-
-
-<?php
-if(isset($_POST['submit']))
-{
-    $user_Id = mysqli_real_escape_string($conn, $_POST['user_Id']);
-    $listings_id = mysqli_real_escape_string($conn, $_POST['listings_id']);
-    $address = mysqli_real_escape_string($conn, $_POST['address']);
-    $status = mysqli_real_escape_string($conn, $_POST['status']);
-    $quantity = mysqli_real_escape_string($conn, $_POST['quantity']);
-    $total = mysqli_real_escape_string($conn, $_POST['total']);
-    $pay_method = mysqli_real_escape_string($conn, $_POST['pay_method']);
-    $city = mysqli_real_escape_string($conn, $_POST['city']);
-    $postal_code = mysqli_real_escape_string($conn, $_POST['postal_code']);
-
-    $sql = "INSERT INTO orders SET
-        user_Id = '$user_Id',
-        listings_id = '$listings_id',
-        address = '$address',
-        status = '$status',
-        quantity = '$quantity',
-        total = '$total',
-        pay_method = '$pay_method',
-        city = '$city',
-        postal_code = '$postal_code'
-    ";
-
-    $res = mysqli_query($conn, $sql);
-
-    if($res == true)
-    {
-        $_SESSION['add'] = "<div class='success'>Order Added Successfully.</div>";
-        header("location:".SITEURL.'admin/manage-orders.php');
-    }
-    else
-    {
-        $_SESSION['add'] = "<div class='error'>Failed to Add Order.</div>";
-        header("location:".SITEURL.'admin/add-order.php');
-    }
-}
-?>
