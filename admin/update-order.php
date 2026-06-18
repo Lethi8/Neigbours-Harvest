@@ -1,4 +1,8 @@
-<?php include('partials/menu.php'); ?>
+<?php 
+     ob_start();
+include('partials/menu.php');
+
+?>
 
 <div class="main-content">
 <div class="wrapper">
