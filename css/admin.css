@@ -33,7 +33,6 @@ a:hover {
 
 .clearfix { clear: both; }
 
-/* NAVBAR FIXED */
 .navbar {
     width: 100%;
     display: flex;
@@ -55,7 +54,6 @@ a:hover {
     background-color: #7CB342;
 }
 
-/* MAIN CONTENT */
 .main-content {
     background-color: transparent;
     padding: 3% 0;
@@ -69,7 +67,7 @@ a:hover {
     float: left;
 }
 
-/* TABLES */
+
 .tbl-full {
     width: 100%;
 }
@@ -93,14 +91,13 @@ table tr td {
     padding: 1%;
 }
 
-/* RESPONSIVE TABLE WRAPPER */
 .table-responsive {
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-/* BUTTONS */
+
 .btn-primary {
     background-color: #1e90ff;
     color: white;
@@ -134,7 +131,7 @@ table tr td {
     background-color: rgb(176, 18, 18);
 }
 
-/* MESSAGES */
+
 .success {
     color: #87f00e;
 }
@@ -143,7 +140,7 @@ table tr td {
     color: red;
 }
 
-/* LOGIN */
+ 
 .login {
     border: 1px solid gray;
     width: 30%;
@@ -152,14 +149,13 @@ table tr td {
     border-radius: 15px;
 }
 
-/* FOOTER */
+
 .footer {
     width: 100%;
     background-color: #8BC34A;
     color: white;
 }
 
-/* TABLET */
 @media all and (max-width: 990px) {
 
     body {
@@ -200,7 +196,7 @@ table tr td {
 .footer a:hover {
     text-decoration: underline;
 }
-/* MOBILE */
+
 @media (max-width: 600px) {
 
     body {
