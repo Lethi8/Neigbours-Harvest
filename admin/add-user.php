@@ -1,4 +1,7 @@
-<?php include('partials/menu.php');?>
+<?php 
+    ob_start();
+session_start();
+    include('partials/menu.php');?>
 <div class="main-content"> 
     <div class="wrapper">
         <h1>Add User </h1>
