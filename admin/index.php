@@ -19,7 +19,7 @@ include ('partials/logincheck.php');
          ?>
          <Br><br>
 
-     <div class="col-4 text-center">
+     <div class="col-4 text-center produce-menu-box productItem">
          
          <?php
          //sql query
@@ -36,7 +36,7 @@ include ('partials/logincheck.php');
         Total Users
         </div>
 
-     <div class="col-4 text-center">
+     <div class="col-4 text-center  produce-menu-box productItem">
          
          <?php
          //sql query
@@ -54,7 +54,7 @@ include ('partials/logincheck.php');
         Total Listings
         </div>
 
-     <div class="col-4 text-center">
+     <div class="col-4 text-center  produce-menu-box productItem">
          
           <?php
          //sql query
@@ -71,7 +71,7 @@ include ('partials/logincheck.php');
         Total Orders
         </div>
 
-     <div class="col-4 text-center">
+     <div class="col-4 text-center  produce-menu-box productItem">
           <?php
          //sql query
          $sql4 = "SELECT * FROM orders WHERE status = 'Completed'";
