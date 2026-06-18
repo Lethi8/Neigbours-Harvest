@@ -7,7 +7,7 @@
  <div class="wrapper">
         <h1>Manage Users</h1>
 
-        <br><br>
+        <br>
 
         <?php 
         if(isset($_SESSION['add']))
@@ -29,7 +29,8 @@
 
 
         ?>
-        <br><br><br>
+     <br><br>
+        
 <!--button to add user -->
         <a href="add-user.php" class="btn-primary">Add User</a>
 
